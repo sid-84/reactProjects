@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './PersonList.css';
 
-const API_URL = 'https://3001-bsccohort-reactprojects-l2rbeq50a0o.ws-us116.gitpod.io/persons';
+const API_URL = 'https://3001-bsccohort-reactprojects-pmkzxt3eixo.ws-us116.gitpod.io/persons';
 
 const PersonList = () => {
   const [persons, setPersons] = useState([]);
