@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Notification from './Notification';
+
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const PersonAdd = ({ onPersonAdded = () => {} }) => {
+const PersonAdd = ({ onPersonAdded = () => { } }) => {
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const navigate = useNavigate();
+  const [showNotification, setShowNotification] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,23 +18,27 @@ const PersonAdd = ({ onPersonAdded = () => {} }) => {
 
     try {
       const response = await axios.post(API_URL, { name, age });
-      const newPersonId = response.data.id; // Assuming the API returns the ID of the newly added person
-      onPersonAdded(response.data);
-
+      const newPersonId = response.data.id;
+      
       // Clear form fields
       setName('');
       setAge('');
 
-      // Show success message
-      alert(`Person "${response.data.name}" added successfully!`);
+      // Show success notification
+      setShowNotification({ type: 'success', text: `Person "${response.data.name}" added successfully!` });
 
       // Navigate to the new person's detail page
-      navigate(`/person/${newPersonId}`);
+      setTimeout(() => navigate(`/person/${newPersonId}`), 2000); // Wait for 2 seconds before navigating
     } catch (error) {
       console.error('Error adding person:', error);
-      alert('Failed to add person. Please try again.');
+      setShowNotification({ type: 'error', text: 'Failed to add person. Please try again.' });
     }
   };
+
+  const handleCloseNotification = () => {
+    setShowNotification(null);
+  };
+
 
   return (
     <div className="box-container">
@@ -58,6 +65,7 @@ const PersonAdd = ({ onPersonAdded = () => {} }) => {
           <button type="button" className="btn btn-cancel" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
+      {showNotification && <Notification message={showNotification} onClose={handleCloseNotification} />}
     </div>
   );
 };

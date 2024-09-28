@@ -13,7 +13,7 @@ const PersonDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [person, setPerson] = useState(null);
-  const [notification, setNotification] = useState('');
+  const [showNotification, setShowNotification] = useState(null);
 
   useEffect(() => {
     const fetchPerson = async () => {
@@ -22,6 +22,7 @@ const PersonDetail = () => {
         setPerson(response.data);
       } catch (error) {
         console.error('Error fetching person:', error);
+        setShowNotification({ type: 'error', text: 'Error loading person details.' });
       }
     };
     fetchPerson();
@@ -30,19 +31,20 @@ const PersonDetail = () => {
   const deletePerson = async () => {
     try {
       await axios.delete(`${API_URL}/${id}`);
-      setNotification({ type: 'success', text: 'Person deleted successfully!' });
-      setTimeout(() => {
-        setNotification('');
-        navigate('/'); // Navigate back to home after deletion
-      }, 3000);
+      setShowNotification({ type: 'success', text: 'Person deleted successfully!' });
+      setTimeout(() => navigate('/'), 3000); // Navigate after showing notification for 3 seconds
     } catch (error) {
       console.error('Error deleting person:', error);
-      setNotification({ type: 'error', text: 'Error deleting person.' });
-      setTimeout(() => setNotification(''), 3000);
+      setShowNotification({ type: 'error', text: 'Error deleting person.' });
     }
   };
 
+  const handleCloseNotification = () => {
+    setShowNotification(null);
+  };
+
   if (!person) return <div className="box-container">Loading...</div>;
+
 
   return (
     <div className="box-container">
@@ -55,9 +57,7 @@ const PersonDetail = () => {
         <button onClick={deletePerson} className="btn btn-delete">Delete</button>
         <Link to="/" className="btn btn-back">Back to Home</Link>
       </div>
-      {notification && (
-        <Notification message={notification} onClose={() => setNotification('')} />
-      )}
+      {showNotification && <Notification message={showNotification} onClose={handleCloseNotification} />}
     </div>
   );
 };
