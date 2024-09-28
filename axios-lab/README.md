@@ -18,7 +18,7 @@ npm install axios
     npm install json-server
     ```
 
-- Create a db.json file and add sample data in it
+- Create a db.json file in the root location of the project and add sample data in it
     ```json
     {
     "persons": [
