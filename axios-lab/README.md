@@ -14,7 +14,9 @@ npm install axios
 ### Setup a temporary database
 
 - Install the json-server package to hold a json file as the temp db.
+- Install it locally and globally both
     ```bash
+    npm install -g json-server
     npm install json-server
     ```
 
