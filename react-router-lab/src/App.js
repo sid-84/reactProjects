@@ -1,31 +1,26 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import BlogList from "./components/BlogList";
-import BlogDetail from "./components/BlogDetail";
-import About from "./components/About";
-import Contact from "./components/Contact";
-import NotFound from "./components/NotFound";
+// src/App.js
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/" element={<BlogList />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/blog/:id" element={<BlogDetail />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </Router>
-  );
-}
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PersonList from './components/PersonList';
+import PersonDetail from './components/PersonDetail';
+import PersonAdd from './components/PersonAdd';
+import PersonEdit from './components/PersonEdit';
+import './App.css'; // Global styles
+
+const App = () => {
+    return (
+        <Router>
+            <div className="box-container">
+                <Routes>
+                    <Route path="/" element={<PersonList />} />
+                    <Route path="/add" element={<PersonAdd />} />
+                    <Route path="/edit/:id" element={<PersonEdit />} />
+                    <Route path="/person/:id" element={<PersonDetail />} />
+                </Routes>
+            </div>
+        </Router>
+    );
+};
 
 export default App;
